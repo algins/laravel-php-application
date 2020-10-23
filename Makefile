@@ -35,7 +35,7 @@ lint-fix:
 	composer phpcbf
 
 compose:
-	docker-compose up
+	docker-compose up -d
 
 compose-test:
 	docker-compose run web make test
