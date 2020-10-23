@@ -1,0 +1,27 @@
+---
+
+  version: '3'
+
+  services:
+
+    db:
+      image: postgres:12.2-alpine
+      environment:
+        POSTGRES_PASSWORD: password
+      volumes:
+        - pgdata:/var/lib/postgresql/data
+
+    web:
+      build:
+        context: .
+      command: make start
+      ports:
+        - "3000:8000"
+      volumes:
+        - ".:/app"
+        - "/tmp:/tmp"
+      depends_on:
+        - db
+
+  volumes:
+    pgdata:
