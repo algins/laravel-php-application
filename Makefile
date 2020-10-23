@@ -25,9 +25,6 @@ log:
 test:
 	php artisan test
 
-deploy:
-	git push heroku
-
 lint:
 	composer phpcs
 
