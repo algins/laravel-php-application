@@ -6,7 +6,6 @@
   * Extensions:
     - bcmath
     - ctype
-    - curl
     - fileinfo
     - json
     - mbstring
