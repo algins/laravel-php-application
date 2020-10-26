@@ -1,17 +1,15 @@
-start:
-	php artisan serve --host 0.0.0.0
+include make-compose.mk
 
 setup:
-	composer install
-	cp -n .env.example .env|| true
-	php artisan key:gen --ansi
+	cp -n .env.example .env || true
 	touch database/database.sqlite
-	php artisan migrate
-	php artisan db:seed
+	composer install
 	npm install
+	php artisan key:generate
+	php artisan migrate --seed
 
-watch:
-	npm run watch
+start:
+	php artisan serve --host 0.0.0.0
 
 migrate:
 	php artisan migrate
@@ -28,26 +26,5 @@ test:
 lint:
 	composer phpcs
 
-lint-fix:
-	composer phpcbf
-
-compose:
-	docker-compose up -d
-
-compose-test:
-	docker-compose run web make test
-
-compose-bash:
-	docker-compose run web bash
-
-compose-setup: compose-build
-	docker-compose run web make setup
-
-compose-build:
-	docker-compose build
-
-compose-db:
-	docker-compose exec db psql -U postgres
-
-compose-down:
-	docker-compose down -v
+watch:
+	npm run watch
