@@ -1,5 +1,7 @@
 FROM php:7.4-fpm
 
+ARG APP_DEBUG=false
+
 RUN apt-get update
 
 RUN apt-get install -y \
@@ -11,13 +13,15 @@ RUN apt-get install -y \
     openssl \
     sqlite3
 
-RUN pecl install xdebug \
+RUN if [ $APP_DEBUG = true ]; then \
+    pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && echo "xdebug.remote_enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_host=127.0.0.1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.idekey=code" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
-    && echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    && echo "xdebug.remote_autostart=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    ; fi;
 
 RUN docker-php-ext-install \
     bcmath \

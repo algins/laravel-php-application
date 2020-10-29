@@ -15,7 +15,10 @@
         - pgdata:/var/lib/postgresql/data
 
     app:
-      build: .
+      build:
+        context: .
+        args:
+          APP_DEBUG: ${APP_DEBUG}
       container_name: app
       volumes:
         - .:/app
